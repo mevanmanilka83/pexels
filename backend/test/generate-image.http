@@ -1,0 +1,116 @@
+### Generate Image with Flux 1.1 Pro (Default) - Requires Authentication
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A beautiful sunset over mountains with a lake in the foreground",
+  "format": "png"
+}
+
+### Test with Stable Diffusion (Alternative Model)
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A simple cat sitting on a windowsill",
+  "model": "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+  "width": 512,
+  "height": 512,
+  "format": "png"
+}
+
+### Generate Image with Custom Parameters - Requires Authentication
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A futuristic city with flying cars, cyberpunk style",
+  "width": 1024,
+  "height": 1024,
+  "guidance_scale": 3.5,
+  "num_inference_steps": 20,
+  "format": "webp"
+}
+
+### Generate Image with Stable Diffusion Model - Requires Authentication
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A serene forest with sunlight filtering through trees",
+  "model": "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+  "width": 512,
+  "height": 512,
+  "format": "jpg"
+}
+
+### Test without prompt (should return error) - Requires Authentication
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": ""
+}
+
+### Test with different formats
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A cute cat sitting on a windowsill",
+  "format": "gif"
+}
+
+### Test invalid format (should return error)
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A beautiful landscape",
+  "format": "bmp"
+}
+
+### Test with a simpler model (if the above don't work)
+POST http://localhost:3000/api/images/generate
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTc1NzY1NTcxNiwiZXhwIjoxNzU3NzQyMTE2fQ.VwWIygCKCwV5HC3B-qW2Cs4LcILl7CK7X8ZMZRN_f7I
+
+{
+  "prompt": "A red apple on a white background",
+  "model": "stability-ai/stable-diffusion:27b93a2413e7f36cd83da926f3656280b2931564ff050bf9575f1fdf9bcdc456",
+  "width": 512,
+  "height": 512
+}
+
+### Get Available Models
+GET http://localhost:3000/api/images/models
+Content-Type: application/json
+
+### HOW TO VIEW IMAGES:
+### The API now returns images as base64 blobs in the response:
+### 1. Look for "primaryImageBlob" in the response - this is a data URL you can use directly
+### 2. Copy the blob value and paste it in your browser address bar to view the image
+### 3. Or use the blob in HTML: <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..." />
+### 4. The "imageBlobs" array contains all generated images with metadata
+### 5. Each blob includes: url, blob (data URL), and size information
+
+### Example of how to use the blob in HTML:
+### <!DOCTYPE html>
+### <html>
+### <body>
+###   <img id="generatedImage" alt="Generated Image">
+###   <script>
+###     // After getting the API response
+###     const response = await fetch('/api/images/generate', { ... });
+###     const data = await response.json();
+###     document.getElementById('generatedImage').src = data.data.primaryImageBlob;
+###   </script>
+### </body>
+### </html>
