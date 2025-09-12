@@ -1,9 +1,14 @@
+/* global process */
 import jwt from 'jsonwebtoken';
 import { User } from '../database.js';
 
 const getJWTSecret = () => {
   const secret = process.env.JWT_SECRET;
   if (!secret) {
+    // Development fallback to prevent 500s if env is missing during local runs
+    if (process.env.NODE_ENV !== 'production') {
+      return 'dev-secret';
+    }
     throw new Error('JWT_SECRET environment variable is required');
   }
   return secret;

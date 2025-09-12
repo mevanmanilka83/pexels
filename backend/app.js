@@ -33,9 +33,10 @@ app.get("/api/health", (req, res) => {
   res.json({ message: "Server is running" });
 });
 
-// Error handling middleware
-app.use((err, req, res) => {
-  console.error(err.stack);
+// Error handling middleware (must have 4 args)
+app.use((err, req, res, next) => {
+  console.error(err && err.stack ? err.stack : err);
+  if (res.headersSent) return next(err);
   res.status(500).json({ error: "Something went wrong!" });
 });
 
