@@ -77,21 +77,6 @@ Frontend will run on `http://localhost:5173` (Vite default). Backend runs on `ht
 
 Ensure these are set in `backend/.env` for local development. This app is intended to run locally; no cloud services are required beyond Replicate for generation.
 
-## Scripts
-
-Root:
-
-```bash
-pnpm dev        # start Vite frontend
-```
-
-Backend:
-
-```bash
-cd backend
-pnpm start      # start Express API
-```
-
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a PR.
