@@ -3,7 +3,7 @@
 function TextInput({ label, type = 'text', value, onChange, name, placeholder }) {
   return (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-gray-700 mb-1" htmlFor={name}>
+      <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1" htmlFor={name}>
         {label}
       </label>
       <input
@@ -24,7 +24,7 @@ function SubmitButton({ children, loading }) {
     <button
       type="submit"
       disabled={loading}
-      className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold py-2.5 rounded-md"
+      className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-semibold text-sm py-2.5 rounded-md"
     >
       {loading ? 'Please wait…' : children}
     </button>

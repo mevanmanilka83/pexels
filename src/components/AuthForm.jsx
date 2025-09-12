@@ -9,11 +9,13 @@ function AuthForm({ onSuccess }) {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [isError, setIsError] = useState(false)
 
   async function handleSubmit(event) {
     event.preventDefault()
     setLoading(true)
     setMessage('')
+    setIsError(false)
 
     try {
       const endpoint = mode === 'login' ? '/api/auth/login' : '/api/auth/signup'
@@ -42,6 +44,7 @@ function AuthForm({ onSuccess }) {
 
       if (!response.ok) {
         const errorMessage = data?.error || data?.message || text || response.statusText || 'Request failed'
+        setIsError(true)
         throw new Error(errorMessage)
       }
 
@@ -50,11 +53,13 @@ function AuthForm({ onSuccess }) {
       }
       const successMessage = data?.message || text || (mode === 'login' ? 'Logged in' : 'Signed up')
       setMessage(successMessage)
+      setIsError(false)
       if (typeof onSuccess === 'function') {
         onSuccess({ token: data?.token, user: data?.user, mode })
       }
     } catch (error) {
       setMessage(error.message)
+      setIsError(true)
     } finally {
       setLoading(false)
     }
@@ -72,15 +77,15 @@ function AuthForm({ onSuccess }) {
             <div className="mx-auto w-full max-w-md">
               <div className="mb-6 text-center">
                 <div className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">Pexels</div>
-                <h2 className="text-3xl font-semibold">
+                <h2 className="text-2xl sm:text-3xl font-semibold">
                   {mode === 'login' ? 'Welcome back' : 'Create your account'}
                 </h2>
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-2 text-xs sm:text-sm text-gray-600">
                   {mode === 'login' ? 'Sign in to continue' : 'Start your journey with us'}
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                 <div>
                   <label htmlFor="email" className="mb-2 block text-sm font-medium">
                     Email address
@@ -147,10 +152,19 @@ function AuthForm({ onSuccess }) {
               </form>
 
               {message && (
-                <p className="text-sm text-center mt-4 text-gray-700">{message}</p>
+                <div
+                  role="alert"
+                  className={`mt-4 rounded-md border px-3 py-2 text-xs sm:text-sm ${
+                    isError
+                      ? 'bg-red-50 border-red-200 text-red-700'
+                      : 'bg-green-50 border-green-200 text-green-700'
+                  }`}
+                >
+                  {message}
+                </div>
               )}
 
-              <div className="text-sm text-center mt-6">
+              <div className="text-xs sm:text-sm text-center mt-6">
                 {mode === 'login' ? (
                   <button className="text-blue-600 hover:underline" onClick={() => setMode('signup')}>
                     Don't have an account? Sign up

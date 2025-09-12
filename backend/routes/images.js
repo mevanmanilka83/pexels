@@ -11,12 +11,13 @@ router.post('/generate', authenticateToken, async (req, res) => {
     const { 
       prompt, 
       model = "black-forest-labs/flux-1.1-pro",
-      width = 1024,
-      height = 1024,
+      width,
+      height,
       num_outputs = 1,
       guidance_scale = 3.5,
       num_inference_steps = 20,
-      format = "png"
+      format = "png",
+      aspect_ratio = "1:1"
     } = req.body;
 
     // Validate input
@@ -48,18 +49,29 @@ router.post('/generate', authenticateToken, async (req, res) => {
       auth: process.env.REPLICATE_API_TOKEN,
     });
 
+    // Validate aspect ratio
+    const validAspectRatios = ["1:1", "16:9", "4:3", "3:2", "2:3", "9:16", "custom"];
+    if (!validAspectRatios.includes(String(aspect_ratio))) {
+      return res.status(400).json({ 
+        error: `Invalid aspect_ratio. Supported: ${validAspectRatios.join(', ')}` 
+      });
+    }
+
     // Generate image using Replicate
     const input = {
       prompt: prompt.trim(),
-      aspect_ratio: "1:1", // Default aspect ratio
+      aspect_ratio: String(aspect_ratio),
       output_format: format.toLowerCase(),
       output_quality: 80,
       safety_tolerance: 2,
       prompt_upsampling: true
     };
 
-    // Add width/height if provided (for custom aspect ratio)
-    if (width && height) {
+    // Add width/height if provided (only used when custom)
+    if (String(aspect_ratio) === 'custom') {
+      if (!width || !height) {
+        return res.status(400).json({ error: "For custom aspect_ratio, both width and height are required" });
+      }
       input.width = parseInt(width);
       input.height = parseInt(height);
       input.aspect_ratio = "custom";

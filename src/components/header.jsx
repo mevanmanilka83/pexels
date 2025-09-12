@@ -5,12 +5,17 @@ function Header() {
     location.reload()
   }
   return (
-    <header>
-      {hasToken && (
-        <button onClick={handleLogout}>
-          Logout
-        </button>
-      )}
+    <header className="w-full p-3 sm:p-4">
+      <div className="max-w-6xl mx-auto flex items-center justify-end">
+        {hasToken && (
+          <button
+            onClick={handleLogout}
+            className="rounded-md bg-red-600 text-white px-4 py-2 text-sm font-medium hover:bg-red-700"
+          >
+            Logout
+          </button>
+        )}
+      </div>
     </header>
   )
 }
