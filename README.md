@@ -11,13 +11,7 @@ Pexels Image Generation is a simple, privacy-friendly app that lets you log in, 
 
 Everything runs locally on your machine. Your session token is stored in your browser. The backend only talks to Replicate to generate images, and nothing is persisted beyond an in-memory/SQLite user store for auth.
 
-## Features
 
-- Email/password signup and login (JWT-based)
-- Prompt-based image generation using Replicate
-- Aspect ratio presets and custom dimensions
-- Single-image output with inline preview and download
-- Local dev server for both frontend and backend
 
 ## Requirements
 
